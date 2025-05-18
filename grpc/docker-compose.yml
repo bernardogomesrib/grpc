@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: rastreamento
+    ports:
+      - "5432:5432"
+    volumes:
+      - posgres-data:/var/lib/postgresql/data
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - spring.datasource.username=postgres
+      - spring.datasource.password=postgres
+      - spring.datasource.driver-class-name=org.postgresql.Driver
+      - spring.jpa.hibernate.ddl-auto=update
+      - spring.jpa.show-sql=true
+      - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+      - spring.jpa.properties.hibernate.format_sql=true
+      - spring.datasource.url=jdbc:postgresql://db:5432/rastreamento
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+volumes:
+  posgres-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./postgres-data
+      o: bind

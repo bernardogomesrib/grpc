@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package rastreio;
+
+service VeiculoService {
+  rpc Comunicar (stream VeiculoMensagem) returns (stream ComandoCentral);
+}
+
+message VeiculoMensagem {
+  string veiculoId = 1;
+  double latitude = 2;
+  double longitude = 3;
+  double velocidade = 4;
+  string status = 5;
+  int64 timestamp = 6;
+}
+
+message ComandoCentral {
+  string comando = 1;
+  string descricao = 2;
+}
