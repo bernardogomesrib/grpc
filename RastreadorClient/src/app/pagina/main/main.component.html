@@ -1,0 +1,16 @@
+<div id="main"
+     (mousemove)="onMouseMove($event)"
+     (mouseenter)="showCar = true"
+     (mouseleave)="showCar = false"
+     (resize)="onResize($event)"
+     style="position: relative; width: 100vw; height: 100vh;"
+     >
+  @if(showCar){
+    <img
+      src="carro.png"
+      [style.left.px]="mouseX"
+      [style.top.px]="mouseY"
+      [style.transform]="'translate(-50%, -50%) rotate(' + anguloGraus + 'deg) scaleY(' + flip + ')'"
+      style="position: absolute; width: 40px; height: 20px; pointer-events: none;" />
+  }
+</div>

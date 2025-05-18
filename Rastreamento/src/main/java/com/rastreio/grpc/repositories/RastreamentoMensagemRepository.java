@@ -11,17 +11,16 @@ import org.springframework.data.repository.query.Param;
 
 public interface RastreamentoMensagemRepository extends JpaRepository<RastreamentoMensagem, Long> {
     // Método para encontrar os IDs dos veículos que estão ativos nos últimos 30 minutos
-      @Query("SELECT DISTINCT r.veiculoId FROM RastreamentoMensagem r WHERE r.timestamp >= :limite")
+      @Query("SELECT DISTINCT r.veiculoId FROM RastreamentoMensagem r WHERE r.dataRegistro >= :limite")
     List<String> findVeiculoIdsAtivosUltimos30Minutos(@Param("limite") LocalDateTime limite);
 
     @Query("""
-    SELECT r FROM RastreamentoMensagem r
-    WHERE r.veiculoId IN :veiculoIds
-      AND r.timestamp = (
-        SELECT MAX(r2.timestamp)
-        FROM RastreamentoMensagem r2
+      SELECT r FROM RastreamentoMensagem r
+      WHERE r.veiculoId IN :veiculoIds
+      AND r.dataRegistro = (
+        SELECT MAX(r2.dataRegistro) FROM RastreamentoMensagem r2
         WHERE r2.veiculoId = r.veiculoId
       )
-""")
+    """)
     List<RastreamentoMensagem> findUltimaMensagemByVeiculoIds(@Param("veiculoIds") List<String> veiculoIds);
 }
