@@ -2,6 +2,7 @@ package com.rastreio.grpc.services;
 
 import io.grpc.stub.StreamObserver;
 import org.springframework.grpc.server.service.GrpcService;
+
 import com.rastreio.grpc.entities.RastreamentoMensagem;
 import com.rastreio.grpc.repositories.RastreamentoMensagemRepository;
 import rastreio.VeiculoServiceGrpc;
@@ -30,7 +31,7 @@ public class VeiculoGrpcServerService extends VeiculoServiceGrpc.VeiculoServiceI
                 registro.setVelocidade(mensagem.getVelocidade());
                 registro.setStatus(mensagem.getStatus());
                 registro.setTimestamp(mensagem.getTimestamp());
-                
+
                 String comando;
                 String descricao;
 
