@@ -1,5 +1,5 @@
 
-import { Component, numberAttribute, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GrpcEnvioService } from '../servicos/grpc-envio.service';
 
 @Component({
@@ -42,17 +42,8 @@ export class MainComponent implements OnInit {
     this.defineTamanhos();
 
     // Inicia a stream e inscreve-se para receber mensagens do backend
-    this.grpcEnvio.iniciarStream().subscribe({
-      next: (resposta: any) => {
-        console.log('Resposta do backend:', resposta);
-      },
-      error: (erro: any) => {
-        console.error('Erro na stream:', erro);
-      },
-      complete: () => {
-        console.log('Stream encerrada.');
-      },
-    });
+    this.grpcEnvio.iniciarStream()
+
   }
 
   defineTamanhos() {
