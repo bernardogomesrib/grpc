@@ -1,0 +1,30 @@
+<div id="main"
+     (mousemove)="onMouseMove($event)"
+     (resize)="onResize($event)"
+     style="position: relative; width: 100vw; height: 100vh;"
+     (click)="definePosicao()"
+     >
+    @for (carro of carros; track carro.veiculoId) {
+      <div>
+        <div>
+          {{carro.veiculoId}}
+        </div>
+          <img
+            src="carro.png"
+            [style.left.px]="carro.clientX"
+            [style.top.px]="carro.clientY"
+            [style.transform]="'translate(-50%, -50%) rotate(' + carro.anguloGraus + 'deg) scaleY(' + carro.flip + ')'"
+            style="position: absolute; width: 40px; height: 20px; pointer-events: none;" />
+      </div>
+    }
+    @if((posicaoX>-1) && (posicaoY>-1)) {
+      <div>
+        <img
+          src="pin.webp"
+          [style.left.px]="posicaoX"
+          [style.top.px]="posicaoY"
+          [style.transform]="'translate(-50%, -99%)'"
+          style="position: absolute; width: 20px; height: 40px; pointer-events: none;" />
+      </div>
+    }
+</div>

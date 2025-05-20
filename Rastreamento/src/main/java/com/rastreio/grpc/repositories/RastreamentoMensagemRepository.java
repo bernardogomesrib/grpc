@@ -16,11 +16,11 @@ public interface RastreamentoMensagemRepository extends JpaRepository<Rastreamen
 
     @Query("""
       SELECT r FROM RastreamentoMensagem r
-      WHERE r.veiculoId IN :veiculoIds
-      AND r.dataRegistro = (
-        SELECT MAX(r2.dataRegistro) FROM RastreamentoMensagem r2
-        WHERE r2.veiculoId = r.veiculoId
+      WHERE r.dataRegistro = (
+      SELECT MAX(r2.dataRegistro) FROM RastreamentoMensagem r2
+      WHERE r2.veiculoId = r.veiculoId AND r2.dataRegistro >= :limite
       )
+      AND r.dataRegistro >= :limite
     """)
-    List<RastreamentoMensagem> findUltimaMensagemByVeiculoIds(@Param("veiculoIds") List<String> veiculoIds);
+    List<RastreamentoMensagem> findUltimaMensagemFromVeiculos(@Param("limite") LocalDateTime limite);
 }

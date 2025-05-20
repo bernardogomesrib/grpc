@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "ip.local",
+    "type": "java.lang.String",
+    "description": "A description for 'ip.local'"
+  },
+  {
+    "name": "cors.allowed.origins",
+    "type": "java.lang.String",
+    "description": "A description for 'cors.allowed.origins'"
+  }
+]}

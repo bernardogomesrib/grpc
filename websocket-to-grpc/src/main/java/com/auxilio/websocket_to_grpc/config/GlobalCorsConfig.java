@@ -1,4 +1,5 @@
-package com.rastreio.grpc.config;
+package com.auxilio.websocket_to_grpc.config;
+
 
 import java.util.List;
 

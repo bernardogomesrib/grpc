@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import lombok.extern.slf4j.Slf4j;
 import rastreio.Veiculo.ComandoCentral;
 import rastreio.Veiculo.VeiculoMensagem;
 import rastreio.VeiculoServiceGrpc;
@@ -26,6 +27,7 @@ import rastreio.VeiculoServiceGrpc;
  */
 
 @Component
+@Slf4j
 public class GrpcWebSocketHandler extends TextWebSocketHandler {
 
     // Mapa para guardar recursos por sessão
@@ -43,19 +45,21 @@ public class GrpcWebSocketHandler extends TextWebSocketHandler {
         GrpcWebSocketRequest request = mapper.readValue(message.getPayload(), GrpcWebSocketRequest.class);
         String grpcAddress = request.getGrpcAddress();
         VeiculoMensagemDTO dto = request.getPayload();
-
+        log.info("mensagem recebida: {}",grpcAddress);
         VeiculoMensagem veiculoMensagem = VeiculoMensagem.newBuilder()
-                .setVeiculoId(dto.veiculoid)
-                .setLatitude(dto.latitude)
-                .setLongitude(dto.longitude)
-                .setVelocidade(dto.velocidade)
-                .setStatus(dto.status)
-                .setTimestamp(dto.timestamp)
-                .build();
-
+        .setVeiculoId(dto.veiculoid)
+        .setLatitude(dto.latitude)
+        .setLongitude(dto.longitude)
+        .setVelocidade(dto.velocidade)
+        .setStatus(dto.status)
+        .setTimestamp(dto.timestamp)
+        .build();
+        
+        log.info("Payload: {}", dto);
         // Se não existe canal para essa sessão, cria e guarda
+        String target = grpcAddress.replaceFirst("^https?://", "").replaceAll("/.*$", "");
         channelMap.computeIfAbsent(session.getId(), id -> {
-            ManagedChannel channel = ManagedChannelBuilder.forTarget(grpcAddress).usePlaintext().build();
+            ManagedChannel channel = ManagedChannelBuilder.forTarget(target).usePlaintext().build();
             VeiculoServiceGrpc.VeiculoServiceStub stub = VeiculoServiceGrpc.newStub(channel);
 
             StreamObserver<ComandoCentral> responseObserver = new StreamObserver<ComandoCentral>() {

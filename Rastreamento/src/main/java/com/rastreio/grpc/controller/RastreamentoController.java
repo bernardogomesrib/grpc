@@ -3,6 +3,7 @@ package com.rastreio.grpc.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rastreio.grpc.services.EstimativaDAO;
 import com.rastreio.grpc.services.RastreamentoService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,11 @@ public class RastreamentoController {
     @GetMapping()
     public List<String> getAtivos() {
         return rastreamentoService.getAllRastreamentosAtuais();
+    }
+
+    @GetMapping("/ultimos")
+    public List<EstimativaDAO> getUltimosRastreamentosRecentes() {
+        return rastreamentoService.getUltimosRastreamentosRecentesGet(0.0, 0.0);
     }
     
 }
