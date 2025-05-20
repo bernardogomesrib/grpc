@@ -5,16 +5,23 @@
      (click)="definePosicao()"
      >
     @for (carro of carros; track carro.veiculoId) {
-      <div>
+      <div 
+        [style.left.px]="carro.clientX"
+        [style.top.px]="carro.clientY"
+        style="position: absolute; width: 100px; height: 100px; pointer-events: none; gap:3px; display: flex; flex-direction: column; justify-content: center; align-items: center;"
+      >
         <div>
           {{carro.veiculoId}}
         </div>
+        <div>
+          {{carro.tempoEstimado}}
+        </div>
+        <br/>
           <img
             src="carro.png"
-            [style.left.px]="carro.clientX"
-            [style.top.px]="carro.clientY"
             [style.transform]="'translate(-50%, -50%) rotate(' + carro.anguloGraus + 'deg) scaleY(' + carro.flip + ')'"
-            style="position: absolute; width: 40px; height: 20px; pointer-events: none;" />
+            style="width: 40px; height: 20px; pointer-events: none;"
+             />
       </div>
     }
     @if((posicaoX>-1) && (posicaoY>-1)) {

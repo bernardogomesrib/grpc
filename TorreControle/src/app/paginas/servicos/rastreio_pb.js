@@ -2,18 +2,14 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
-// @ts-nocheck
-
 import * as jspb from 'google-protobuf'
 var goog = jspb;
-var global = (function() { return this || window || global || self || Function('return this')(); }).call(null);
+var global = Function('return this')();
 
 goog.exportSymbol('proto.rastreio.EstimativaRequest', null, global);
 goog.exportSymbol('proto.rastreio.EstimativaResponse', null, global);
@@ -29,7 +25,7 @@ goog.exportSymbol('proto.rastreio.EstimativaVeiculo', null, global);
  * @constructor
  */
 proto.rastreio.EstimativaRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.rastreio.EstimativaRequest.repeatedFields_, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.rastreio.EstimativaRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -82,13 +78,6 @@ if (goog.DEBUG && !COMPILED) {
   proto.rastreio.EstimativaVeiculo.displayName = 'proto.rastreio.EstimativaVeiculo';
 }
 
-/**
- * List of repeated fields within this message type.
- * @private {!Array<number>}
- * @const
- */
-proto.rastreio.EstimativaRequest.repeatedFields_ = [1];
-
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -120,7 +109,6 @@ proto.rastreio.EstimativaRequest.prototype.toObject = function(opt_includeInstan
  */
 proto.rastreio.EstimativaRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    veiculosidsList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f,
     latitude: jspb.Message.getFloatingPointFieldWithDefault(msg, 2, 0.0),
     longitude: jspb.Message.getFloatingPointFieldWithDefault(msg, 3, 0.0)
   };
@@ -159,10 +147,6 @@ proto.rastreio.EstimativaRequest.deserializeBinaryFromReader = function(msg, rea
     }
     var field = reader.getFieldNumber();
     switch (field) {
-    case 1:
-      var value = /** @type {string} */ (reader.readString());
-      msg.addVeiculosids(value);
-      break;
     case 2:
       var value = /** @type {number} */ (reader.readDouble());
       msg.setLatitude(value);
@@ -200,13 +184,6 @@ proto.rastreio.EstimativaRequest.prototype.serializeBinary = function() {
  */
 proto.rastreio.EstimativaRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getVeiculosidsList();
-  if (f.length > 0) {
-    writer.writeRepeatedString(
-      1,
-      f
-    );
-  }
   f = message.getLatitude();
   if (f !== 0.0) {
     writer.writeDouble(
@@ -221,43 +198,6 @@ proto.rastreio.EstimativaRequest.serializeBinaryToWriter = function(message, wri
       f
     );
   }
-};
-
-
-/**
- * repeated string veiculosIds = 1;
- * @return {!Array<string>}
- */
-proto.rastreio.EstimativaRequest.prototype.getVeiculosidsList = function() {
-  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 1));
-};
-
-
-/**
- * @param {!Array<string>} value
- * @return {!proto.rastreio.EstimativaRequest} returns this
- */
-proto.rastreio.EstimativaRequest.prototype.setVeiculosidsList = function(value) {
-  return jspb.Message.setField(this, 1, value || []);
-};
-
-
-/**
- * @param {string} value
- * @param {number=} opt_index
- * @return {!proto.rastreio.EstimativaRequest} returns this
- */
-proto.rastreio.EstimativaRequest.prototype.addVeiculosids = function(value, opt_index) {
-  return jspb.Message.addToRepeatedField(this, 1, value, opt_index);
-};
-
-
-/**
- * Clears the list making it empty but non-null.
- * @return {!proto.rastreio.EstimativaRequest} returns this
- */
-proto.rastreio.EstimativaRequest.prototype.clearVeiculosidsList = function() {
-  return this.setVeiculosidsList([]);
 };
 
 
@@ -642,7 +582,7 @@ proto.rastreio.EstimativaVeiculo.serializeBinaryToWriter = function(message, wri
 
 
 /**
- * optional string veiculoId = 1;
+ * optional string veiculoid = 1;
  * @return {string}
  */
 proto.rastreio.EstimativaVeiculo.prototype.getVeiculoid = function() {

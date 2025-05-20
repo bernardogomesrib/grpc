@@ -4,15 +4,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
 import com.rastreio.grpc.entities.RastreamentoMensagem;
 import com.rastreio.grpc.repositories.RastreamentoMensagemRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import rastreio.Rastreio;
 import rastreio.Rastreio.EstimativaResponse;
 import rastreio.Rastreio.EstimativaVeiculo;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class RastreamentoService {
     private final RastreamentoMensagemRepository repository;
@@ -35,21 +38,22 @@ public class RastreamentoService {
                 );
                 double velocidade = mensagem.getVelocidade() > 0 ? mensagem.getVelocidade() : 40.0; // km/h padrão
                 double tempoHoras = distancia / velocidade;
-                long tempoMinutos = (long) (tempoHoras * 60);
+                long tempoSegundos = (long) (tempoHoras * 60*60);
 
                 EstimativaVeiculo estimativa = EstimativaVeiculo.newBuilder()
-                        .setVeiculoId(mensagem.getVeiculoId())
+                        .setVeiculoid(mensagem.getVeiculoId())
                         .setLatitude(mensagem.getLatitude())
                         .setLongitude(mensagem.getLongitude())
                         .setVelocidade(mensagem.getVelocidade())
                         .setStatus(mensagem.getStatus())
                         .setTimestamp(mensagem.getTimestamp())
-                        .setTempoEstimado(tempoMinutos + " min")
+                        .setTempoEstimado(tempoSegundos + " segundos")
                         .build();
 
                 responseBuilder.addEstimativas(estimativa);
             }
         }
+        log.info("Rastreamento foi feito, retornando para enviar ao cliente");
         return responseBuilder.build();
     }
     public List<EstimativaDAO> getUltimosRastreamentosRecentesGet( double latitude, double longitude) {

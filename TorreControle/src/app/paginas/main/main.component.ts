@@ -34,7 +34,7 @@ export class MainComponent implements OnInit {
   startPeriodicFetch(): void {
     this.intervalId = setInterval(() => {
       this.pegarPosicoes();
-    }, 1000); 
+    }, 300); 
   }
 
   ngAfterViewInit(): void {
@@ -44,13 +44,15 @@ export class MainComponent implements OnInit {
     
     if (this.listaIds.length >= 0 && this.posicaoX != -1 && this.posicaoY != -1) {
       console.log(this.listaIds, this.posicaoX/Carro.tamanhoTelaX, this.posicaoY/Carro.tamanhoTelaY);
-      this.service.getEstimativa(this.listaIds, this.posicaoX/Carro.tamanhoTelaX, this.posicaoY/Carro.tamanhoTelaY)/* .then((response) => {
-        console.log('Resposta do serviço:', response);
-        this.carros = response;
-      }).catch((error) => {
-        console.log(error);
-        this.toaster.error( `${error.message}`,'Erro ao obter estimativas');
-      }); */
+      const aux:Carro[] = this.service.getEstimativa(this.posicaoX/Carro.tamanhoTelaX, this.posicaoY/Carro.tamanhoTelaY)
+      aux.forEach((carro: Carro) => {
+        const index = this.carros.findIndex((c) => c.id === carro.id);
+        if (index !== -1) {
+          this.carros[index].moverCarro({latitude:carro.latitude, longitude:carro.longitude}, carro.velocidade,carro.tempoEstimado);
+        } else {
+          this.carros.push(carro);
+        }
+      })
     }
   }
 

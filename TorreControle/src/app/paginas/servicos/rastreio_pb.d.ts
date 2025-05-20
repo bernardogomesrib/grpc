@@ -3,11 +3,6 @@ import * as jspb from 'google-protobuf'
 
 
 export class EstimativaRequest extends jspb.Message {
-  getVeiculosidsList(): Array<string>;
-  setVeiculosidsList(value: Array<string>): EstimativaRequest;
-  clearVeiculosidsList(): EstimativaRequest;
-  addVeiculosids(value: string, index?: number): EstimativaRequest;
-
   getLatitude(): number;
   setLatitude(value: number): EstimativaRequest;
 
@@ -24,7 +19,6 @@ export class EstimativaRequest extends jspb.Message {
 
 export namespace EstimativaRequest {
   export type AsObject = {
-    veiculosidsList: Array<string>,
     latitude: number,
     longitude: number,
   }
