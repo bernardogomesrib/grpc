@@ -1,0 +1,103 @@
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: rastreamento
+    ports:
+      - "5432:5432"
+    volumes:
+      - posgres-data:/var/lib/postgresql/data
+    mem_limit: 512m
+  api-central:
+    build:
+      context: ./central
+      dockerfile: Dockerfile
+    environment:
+      - spring.datasource.username=postgres
+      - spring.datasource.password=postgres
+      - spring.datasource.driver-class-name=org.postgresql.Driver
+      - spring.jpa.hibernate.ddl-auto=update
+      - spring.jpa.show-sql=false
+      - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+      - spring.jpa.properties.hibernate.format_sql=false
+      - spring.datasource.url=jdbc:postgresql://db:5432/rastreamento
+      - ip.local=${IP_LOCAL}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    mem_limit: 512m
+  api-rastreamento:
+    build:
+      context: ./Rastreamento
+      dockerfile: Dockerfile
+    environment:
+      - spring.datasource.username=postgres
+      - spring.datasource.password=postgres
+      - spring.datasource.driver-class-name=org.postgresql.Driver
+      - spring.jpa.hibernate.ddl-auto=update
+      - spring.jpa.show-sql=false
+      - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+      - spring.jpa.properties.hibernate.format_sql=false
+      - spring.datasource.url=jdbc:postgresql://db:5432/rastreamento
+      - ip.local=${IP_LOCAL}
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+      - api-central
+    mem_limit: 512m
+  api-web-to-grpc-unario:
+    build:
+      context: ./web_to_grpc_unario
+      dockerfile: Dockerfile
+    environment:
+      - ip.local=${IP_LOCAL}
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db
+      - api-central
+      - api-rastreamento
+    mem_limit: 512m
+  api-websocket-to-grpc:
+    build:
+      context: ./websocket-to-grpc
+      dockerfile: Dockerfile
+    environment:
+      - ip.local=${IP_LOCAL}
+    ports:
+      - "8083:8083"
+    depends_on:
+      - db
+      - api-central
+    mem_limit: 512m
+  front-client:
+    build:
+      context: ./RastreamentoCliente
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - db
+      - api-central
+    mem_limit: 512m
+  front-torre:
+    build:
+      context: ./TorreControle
+      dockerfile: Dockerfile
+    ports:
+      - "4269:80"
+    depends_on:
+      - db
+      - api-rastreamento
+    mem_limit: 512m
+volumes:
+  posgres-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./postgres-data
+      o: bind

@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 import {
-  ComandoCentral,
   VeiculoMensagem
 } from '../../../../generated/veiculo_pb';
 
@@ -104,7 +103,9 @@ export class GrpcEnvioService {
 
           payload: this.request.toObject ? this.request.toObject() : {}
         };
-        this.ws.send(JSON.stringify(payload));
+        if(this.request.getVeiculoid()!== '') {
+          this.ws.send(JSON.stringify(payload));
+        }
       }
     }, intervaloMs);
   }

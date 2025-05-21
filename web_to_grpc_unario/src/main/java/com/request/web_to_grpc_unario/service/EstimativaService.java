@@ -10,10 +10,12 @@ import com.request.web_to_grpc_unario.entities.EstimativaDAO;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import lombok.extern.slf4j.Slf4j;
 import rastreio.EstimativaEntregaGrpc;
 import rastreio.Rastreio.EstimativaRequest;
 import rastreio.Rastreio.EstimativaResponse;
 @Service
+@Slf4j
 public class EstimativaService {
 
     @Value("${ip.local}")
@@ -48,7 +50,7 @@ public class EstimativaService {
                 .tempoEstimado(ev.getTempoEstimado())
                 .build())
             .collect(Collectors.toList());
-
+        log.info("Enviando estimativas para a posição: " + latitude + ", " + longitude);
         channel.shutdown();
 
         return estimativas;

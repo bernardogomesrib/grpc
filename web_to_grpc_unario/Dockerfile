@@ -9,7 +9,7 @@ RUN mvn clean package -DskipTests
 #RUN mvn clean package -DskipTests
 
 #RUN native-image -J-Xmx4g -jar target/comunicaa-api-0.0.1-SNAPSHOT.jar
-EXPOSE 8081
+EXPOSE 8082
 
 #RUN mvn clean package -DskipTests
 
@@ -18,4 +18,4 @@ EXPOSE 8081
 #ENTRYPOINT ["target/comunicaa-api"]
 #CMD ["/usr/lib64/graalvm/graalvm-java21/bin/java", "-agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image/", "-jar", "target/comunicaa-api-0.0.1-SNAPSHOT.jar"]
 
-ENTRYPOINT ["/usr/lib64/graalvm/graalvm-java21/bin/java",  "-jar", "target/estimativas-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["/usr/lib64/graalvm/graalvm-java21/bin/java",  "-jar", "target/web_to_grpc_unario-0.0.1-SNAPSHOT.jar"]
