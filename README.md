@@ -12,7 +12,7 @@
 .
 ├── Diagrama.png
 ├── docker-compose.yml
-├── central/
+├── central/ 
 ├── postgres-data/
 ├── Rastreamento/
 ├── RastreamentoCliente/
@@ -67,6 +67,8 @@ Cada pasta representa um componente do diagrama acima.
     ```
     http://192.168.0.9:4269
     ```
+
+6. Clique em algum local da pagina no site com a porta 4269 para começar a pegar informações dos carros.
 ---
 
 ## Justificativa da Arquitetura
